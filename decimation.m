@@ -5,6 +5,10 @@ x= cos(2*pi*n/20);
 subplot(2,1,1);
 stem(n,x);
 hold on;
+
+%creating a low pass filter
+%fir filter has denominator as 1
+
 a=1;
 b=fir1(5,0.5,'low');
 y=filter(b,a,x);
