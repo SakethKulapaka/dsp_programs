@@ -12,7 +12,8 @@ if l1>l2
 elseif l2>l1
     x = [x zeros(1,l2-l1)];
 end
-   
+
+h = fliplr(h);
 for i=1:l
     h = [h(l) h(1:l-1)];
     y(i) = x*h';
