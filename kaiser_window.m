@@ -1,0 +1,44 @@
+clc;
+clear all;
+close all;
+rp=0.02%input('enter rp:');
+rs=0.01%input('enter rs:');
+fp=1000%input('enter fp:');
+fs=1500%input('enter fs:');
+beta=5.8%input('enter beta');
+Fs=10000%input('enter sampling freq:');
+wp=2*fp/Fs;
+ws=2*fs/Fs;
+wn=[wp,ws];
+num=(-20*log(sqrt(rp*rs)))-13;
+den=14.6*((fs-fp)/Fs);
+n=ceil(num/den);
+display(n);
+n1=n+1;
+if(rem(n,2)~=0)
+    n1=n;
+    n=n-1;
+end
+y=kaiser(n1,beta);
+subplot(3,2,1)
+ stem(y);
+ b=fir1(n,wp,y);
+[h1,w]=freqz(b,1);
+subplot(3,2,2);
+plot(w/pi,20*log(abs(h1)));
+title('low pass');
+ b1=fir1(n,wp,'high',y);
+[h2,w]=freqz(b1,1);
+subplot(3,2,3);
+plot(w/pi,20*log(abs(h2)));
+title('high pass');
+b2=fir1(n,wn,y);
+[h3,w]=freqz(b2,1);
+subplot(3,2,4);
+plot(w/pi,20*log(abs(h3)));
+title('band pass');                                                                                                                                                                                                               
+b3=fir1(n,wn,'stop',y);
+[h4,w]=freqz(b3,1);
+subplot(3,2,5);
+plot(w/pi,20*log(abs(h4)));
+title('stop band');
